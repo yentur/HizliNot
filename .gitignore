@@ -1,0 +1,15 @@
+# Swift / SwiftPM build artifacts
+.build/
+.swiftpm/
+Package.resolved
+
+# Built app bundle
+*.app/
+HizliNot.app/
+
+# macOS
+.DS_Store
+
+# Scratch
+*.png
+/tmp/
