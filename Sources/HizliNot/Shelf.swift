@@ -1,6 +1,21 @@
 import Cocoa
 import UniformTypeIdentifiers
 
+// Canonical way to round an NSVisualEffectView: mask the material with a
+// resizable rounded-rect image. layer.cornerRadius leaves square opaque corners.
+func makeRoundedMask(radius: CGFloat) -> NSImage {
+    let edge = radius * 2 + 2
+    let size = NSSize(width: edge, height: edge)
+    let image = NSImage(size: size)
+    image.lockFocus()
+    NSColor.black.setFill()
+    NSBezierPath(roundedRect: NSRect(origin: .zero, size: size), xRadius: radius, yRadius: radius).fill()
+    image.unlockFocus()
+    image.capInsets = NSEdgeInsets(top: radius, left: radius, bottom: radius, right: radius)
+    image.resizingMode = .stretch
+    return image
+}
+
 // MARK: - File model + shared store (on-disk so native drag-out gives real files)
 
 final class FileItem {
@@ -404,11 +419,7 @@ final class ShelfPanel: NSPanel {
         blur.material = .hudWindow
         blur.state = .active
         blur.blendingMode = .behindWindow
-        blur.wantsLayer = true
-        blur.layer?.cornerRadius = 16
-        blur.layer?.masksToBounds = true
-        blur.layer?.borderWidth = 0.5
-        blur.layer?.borderColor = NSColor(white: 1, alpha: 0.14).cgColor
+        blur.maskImage = makeRoundedMask(radius: 16) // rounds the vibrancy cleanly
         contentView = blur
 
         shelf.frame = blur.bounds

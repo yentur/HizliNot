@@ -151,9 +151,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
         blur.material = .underWindowBackground
         blur.state = .active
         blur.blendingMode = .behindWindow
-        blur.wantsLayer = true
-        blur.layer?.cornerRadius = 18
-        blur.layer?.masksToBounds = true
+        blur.maskImage = makeRoundedMask(radius: 18) // rounds the vibrancy cleanly
         blur.autoresizingMask = [.width, .height]
         panel.contentView = blur
         noteBlur = blur
