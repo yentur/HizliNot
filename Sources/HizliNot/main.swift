@@ -164,6 +164,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
         web.setValue(false, forKey: "drawsBackground")
         web.autoresizingMask = [.width, .height]
         if #available(macOS 12.0, *) { web.underPageBackgroundColor = .clear }
+        // round the web view's own layer — its hosted content layer ignores the
+        // ancestor mask, so without this the square corners poke out (white/black corners)
+        web.wantsLayer = true
+        web.layer?.cornerRadius = 18
+        web.layer?.masksToBounds = true
         blur.addSubview(web)
 
         web.loadHTMLString(htmlString, baseURL: nil)

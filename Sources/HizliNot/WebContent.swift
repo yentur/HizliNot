@@ -38,6 +38,7 @@ let htmlString = #"""
   #app{
     position:fixed; inset:0; display:flex; flex-direction:column;
     background:var(--bg); color:var(--fg); overflow:hidden;
+    border-radius:18px;
   }
   #app.collapsed #tabs, #app.collapsed #content, #app.collapsed .rz{ display:none; }
 
